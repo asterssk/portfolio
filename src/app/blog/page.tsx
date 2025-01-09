@@ -19,7 +19,7 @@ const blogFilters = ["All events", "Life", "Career", "Achievements"];
 export default async function Page() {
   return (
     <section>
-      <div className="container flex flex-col gap-10 py-8">
+      <div className="container flex flex-col gap-10 py-8 px-6">
         <div className="aspect-[10/3] overflow-clip relative w-full rounded-lg">
           <Image
             src="/blog/smile.jpg"

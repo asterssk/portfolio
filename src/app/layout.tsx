@@ -35,9 +35,10 @@ export default function RootLayout({ children }: Props) {
           defaultTheme="light"
           disableTransitionOnChange
         >
-          <header className="sticky top-0 backdrop-blur-sm bg-white/80 dark:bg-neutral-950/90 border-b z-10">
-            <nav className="px-6 py-3">
-              <div className="flex flex-wrap justify-between items-center container gap-4">
+          {/* <header className="sticky top-0 backdrop-blur-sm bg-white/80 dark:bg-neutral-950/90 border-b z-10"> */}
+          <header className="sticky top-0 bg-white dark:bg-neutral-950 border-b z-10">
+            <nav>
+              <div className="flex flex-wrap justify-between items-center container gap-4 px-6 py-3">
                 <Link href="/" className="flex items-center gap-4">
                   <Image
                     src="/asterisk.svg"
@@ -59,7 +60,7 @@ export default function RootLayout({ children }: Props) {
 
           {children}
 
-          <footer className="mt-auto">
+          <footer className="mt-auto text-white bg-stone-950 dark:bg-neutral-950">
             <div className="container py-4 text-sm">All rights reserved.</div>
           </footer>
         </ThemeProvider>
