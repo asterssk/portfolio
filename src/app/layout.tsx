@@ -27,14 +27,15 @@ export default function RootLayout({ children }: Props) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased
+        min-h-screen flex flex-col`}
       >
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
           disableTransitionOnChange
         >
-          <header className="sticky top-0 backdrop-blur-sm bg-inherit/30 border-b">
+          <header className="sticky top-0 backdrop-blur-sm bg-white/80 dark:bg-neutral-950/90 border-b z-10">
             <nav className="px-6 py-3">
               <div className="flex flex-wrap justify-between items-center container gap-4">
                 <Link href="/" className="flex items-center gap-4">
@@ -57,6 +58,10 @@ export default function RootLayout({ children }: Props) {
           </header>
 
           {children}
+
+          <footer className="mt-auto">
+            <div className="container py-4 text-sm">All rights reserved.</div>
+          </footer>
         </ThemeProvider>
       </body>
     </html>
