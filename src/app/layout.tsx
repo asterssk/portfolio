@@ -36,32 +36,47 @@ export default function RootLayout({ children }: Props) {
           disableTransitionOnChange
         >
           {/* <header className="sticky top-0 backdrop-blur-sm bg-white/80 dark:bg-neutral-950/90 border-b z-10"> */}
-          <header className="sticky top-0 bg-white dark:bg-neutral-950 border-b z-10">
-            <nav>
-              <div className="flex flex-wrap justify-between items-center container gap-4 px-6 py-3">
-                <Link href="/" className="flex items-center gap-4">
-                  <Image
-                    src="/asterisk.svg"
-                    width={32}
-                    height={32}
-                    alt="Logo"
-                    className="dark:bg-white bg-gray-100 text-white rounded-full p-[3px]"
-                  />
+          <header className="sticky top-0 bg-background border-b z-10">
+            <nav className="flex justify-between items-center container gap-4 px-6 py-3">
+              <Link href="/" className="flex items-center gap-2 md:gap-4">
+                <Image
+                  src="/asterisk.svg"
+                  width={32}
+                  height={32}
+                  alt="Logo"
+                  className="dark:bg-white bg-gray-100 text-white rounded-full p-[3px]"
+                />
 
-                  <span className="self-center text-lg font-semibold whitespace-nowrap dark:text-white">
-                    DEXTER JAMES
-                  </span>
-                </Link>
+                <span className="hidden md:block self-center text-lg font-semibold whitespace-nowrap dark:text-white">
+                  DEXTER JAMES
+                </span>
 
-                <HeaderNav />
-              </div>
+                <span className="md:hidden block self-center text-lg font-semibold whitespace-nowrap dark:text-white">
+                  DJ
+                </span>
+              </Link>
+
+              <HeaderNav />
             </nav>
           </header>
 
           {children}
 
           <footer className="mt-auto text-white bg-stone-950 dark:bg-neutral-950">
-            <div className="container py-4 text-sm">All rights reserved.</div>
+            <div className="container flex justify-between items-center py-8 text-sm">
+              <span>All rights reserved. &copy;{new Date().getFullYear()}</span>
+              <div>
+                <a href="https://ko-fi.com/I3I718RZ8J" target="_blank">
+                  <Image
+                    height={120}
+                    width={120}
+                    // style="border:0px;height:36px;"
+                    src="https://storage.ko-fi.com/cdn/kofi6.png?v=6"
+                    alt="Buy Me a Coffee at ko-fi.com"
+                  />
+                </a>
+              </div>
+            </div>
           </footer>
         </ThemeProvider>
       </body>

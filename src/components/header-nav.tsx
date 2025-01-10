@@ -33,7 +33,7 @@ export function HeaderNav() {
             <Link
               href={`/${nav.value}`}
               className={cn(
-                "transition-all",
+                "transition-all font-semibold",
                 segment === nav.value ? "text-primary" : "hover:text-primary"
               )}
             >

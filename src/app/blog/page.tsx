@@ -1,8 +1,12 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRightIcon } from "lucide-react";
+import { kBlogTypes } from "@/lib/constants";
+import { cn } from "@/lib/utils";
+import { ArrowUpRightIcon, DotIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+
+type Props = { searchParams: Promise<{ filter?: string }> };
 
 export const metadata = { title: "Blog" };
 
@@ -14,25 +18,29 @@ const blogs = [
   { title: "Title", id: "asdas5" },
 ];
 
-const blogFilters = ["All events", "Life", "Career", "Achievements"];
+export default async function Page({ searchParams }: Props) {
+  const { filter = "all" } = await searchParams;
 
-export default async function Page() {
   return (
     <section>
-      <div className="container flex flex-col gap-10 py-8 px-6">
-        <div className="aspect-[10/3] overflow-clip relative w-full rounded-lg">
-          <Image
-            src="/blog/smile.jpg"
-            fill
-            alt="blog"
-            className="object-cover"
-          />
-        </div>
+      {/* FEATURE */}
+      <div
+        className="overflow-clip relative w-full"
+        style={{ height: "clamp(18rem, 35vw, 40rem)" }}
+      >
+        {/* <div className="z-10 bg-red-500">asd</div> */}
+        <Image src="/blog/smile.jpg" fill alt="blog" className="object-cover" />
+      </div>
 
-        <div className="flex items-start gap-10">
-          <div className="flex flex-col gap-8 flex-1">
+      <div className="container flex flex-col gap-10 py-10 px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_15rem] place-items-start gap-10">
+          {/* CONTENT */}
+          <div className="order-last lg:order-first flex flex-col gap-8">
             {blogs.map((blog) => (
-              <div key={blog.id} className="flex gap-6">
+              <div
+                key={blog.id}
+                className="grid sm:grid-cols-[17rem_1fr] md:grid-cols-[20rem_1fr] gap-6"
+              >
                 <div className="aspect-video overflow-clip relative w-full rounded-lg">
                   <Image
                     src="/blog/smile.jpg"
@@ -77,12 +85,26 @@ export default async function Page() {
             ))}
           </div>
 
-          <div className="sticky top-20 w-52 flex flex-col gap-3">
-            {blogFilters.map((filter) => (
-              <Link key={filter} href={`/blog?filter=${filter}`} scroll={false}>
-                {filter}
-              </Link>
-            ))}
+          {/* FILTERS */}
+          <div className="sticky top-14 flex lg:flex-col bg-background border-b lg:border-b-0 gap-4 lg:gap-3 w-full px-4 py-3 lg:py-6 overflow-auto">
+            {["all", ...kBlogTypes].map((option) => {
+              const isActive = option === filter;
+
+              return (
+                <Link
+                  key={option}
+                  href={`/blog?filter=${option}`}
+                  scroll={false}
+                  className={cn(
+                    "text-sm capitalize flex items-center",
+                    isActive ? "text-primary" : ""
+                  )}
+                >
+                  <DotIcon />
+                  {option}
+                </Link>
+              );
+            })}
           </div>
         </div>
 
