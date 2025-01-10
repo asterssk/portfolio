@@ -27,7 +27,7 @@ export function HeaderNav() {
 
   return (
     <div className="flex items-center gap-6">
-      <ul className="hidden md:flex items-center gap-6 text-sm -mb-[1px]">
+      <ul className="hidden md:flex items-center gap-6 text-[0.79rem]">
         {navs.map((nav) => (
           <li key={nav.value}>
             <Link

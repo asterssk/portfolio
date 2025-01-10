@@ -42,16 +42,11 @@ export default function Page() {
   return (
     <section className="flex-1 flex flex-col">
       <div className="container px-6 py-10 max-w-screen-lg space-y-12 flex-1">
-        <p className="text-center">
-          I&apos;m a passionate developer and creative problem solver with a
-          focus on web and mobile app development, project management, and
-          graphic design. I love building responsive websites with Next.js and
-          designing mobile apps that are both intuitive and high-performing.
-          I&apos;m also skilled in managing projects, keeping things on track,
-          and making sure teams work together seamlessly. On the creative side,
-          I design visuals that effectively communicate ideas and leave a
-          lasting impression. I&apos;m driven by a love for creating things that
-          work well and look great.
+        <p className="text-center max-w-screen-md mx-auto">
+          I&apos;m a developer with a passion for building user-friendly web and
+          mobile apps. I specialize in Next.js, project management, and graphic
+          design. I enjoy creating beautiful and functional products that make a
+          difference.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">

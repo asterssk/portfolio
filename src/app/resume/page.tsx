@@ -1,3 +1,10 @@
+import { Badge } from "@/components/ui/badge";
+import {
+  codingSkillsExt,
+  designSkillsExt,
+  kCodingSkills,
+  kDesignSkills,
+} from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { Facebook, Github, Mail } from "lucide-react";
 import { Anton } from "next/font/google";
@@ -62,10 +69,12 @@ export default function Page() {
             <div className="flex flex-col gap-2">
               <h1 className="text-2xl font-semibold">Career Objective</h1>
               <p>
-                I’m passionate about using technology to create meaningful
-                digital experiences. My goal is to build user-friendly solutions
-                that solve real problems, working with teams to turn ideas into
-                practical, impactful results.
+                To contribute to innovative and impactful projects by leveraging
+                my full-stack web development expertise in creating
+                user-centric, high-performing, and scalable web applications. I
+                am eager to learn and grow within a dynamic environment,
+                collaborating with cross-functional teams to deliver exceptional
+                digital experiences.
               </p>
             </div>
 
@@ -83,16 +92,31 @@ export default function Page() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <h1 className="text-2xl font-semibold">Tech & Skills</h1>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat
-                molestiae, iste ratione delectus dolor veritatis officiis,
-                incidunt nam modi explicabo dolorum numquam. Porro, quae? Illum
-                quibusdam nobis perferendis reprehenderit corrupti sed velit
-                consectetur laboriosam incidunt! Beatae, explicabo dolorem
-                aliquam necessitatibus facilis consequatur nisi incidunt
-                doloremque facere tempore. Natus, magni voluptatum!
-              </p>
+              <h1 className="text-2xl font-semibold">Skills & Tech</h1>
+
+              <div className="mb-2">
+                <h1 className="text-sm font-semibold">Coding</h1>
+
+                <div className="flex gap-3">
+                  {kCodingSkills.map((code) => {
+                    const ext = codingSkillsExt[code];
+
+                    return <Badge key={code}>{ext.label}</Badge>;
+                  })}
+                </div>
+              </div>
+
+              <div>
+                <h1>Design & Planning</h1>
+
+                <div className="flex gap-3">
+                  {kDesignSkills.map((design) => {
+                    const ext = designSkillsExt[design];
+
+                    return <Badge key={design}>{ext.label}</Badge>;
+                  })}
+                </div>
+              </div>
             </div>
           </div>
         </div>
