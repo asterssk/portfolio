@@ -19,7 +19,7 @@ import { z } from "zod";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { useRef } from "react";
 import Image from "next/image";
-import { ImageIcon } from "lucide-react";
+import { CheckCircleIcon, ImageIcon, Loader2 } from "lucide-react";
 import { getImageData } from "@/utils/helpers";
 import React from "react";
 import {
@@ -29,23 +29,41 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { saveBlog } from "./_actions";
+import { toast } from "sonner";
 
 type Props = { initialValue?: z.infer<typeof blogSchema> };
 
 export function BlogForm({ initialValue }: Props) {
+  //   const supabse = spc();
+
   const fileRef = useRef<HTMLInputElement>(null);
   const form = useForm<z.infer<typeof blogSchema>>({
     resolver: zodResolver(blogSchema),
-    defaultValues: initialValue ?? { is_published: true },
+    defaultValues: initialValue ?? {
+      title: "",
+      is_published: true,
+      content: "",
+      categories: [],
+    },
   });
+
+  //   const uploadImage = async () => {};
+
+  const handleSubmit = async (values: z.infer<typeof blogSchema>) => {
+    const error = await saveBlog(values, initialValue?.id);
+    if (error) {
+      toast.error(error);
+    } else {
+      toast.success("Blog successfully saved");
+    }
+  };
 
   return (
     <Form {...form}>
       <form
         className="flex flex-col gap-6"
-        onSubmit={form.handleSubmit((values) => {
-          console.log("VALUES", values);
-        })}
+        onSubmit={form.handleSubmit(handleSubmit)}
       >
         <FormField
           control={form.control}
@@ -177,7 +195,16 @@ export function BlogForm({ initialValue }: Props) {
           )}
         />
 
-        <Button type="submit" className="self-end">
+        <Button
+          type="submit"
+          className="self-end"
+          disabled={form.formState.isSubmitting}
+        >
+          {form.formState.isSubmitting ? (
+            <Loader2 className="animate-spin" />
+          ) : (
+            <CheckCircleIcon />
+          )}
           SUBMIT
         </Button>
       </form>

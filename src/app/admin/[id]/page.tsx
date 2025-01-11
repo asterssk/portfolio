@@ -4,6 +4,8 @@ import { sps } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { TrashIcon } from "lucide-react";
+import { z } from "zod";
+import { blogSchema } from "@/utils/schema";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -16,6 +18,7 @@ export async function generateMetadata({ params }: Props) {
     const { data } = await supabase
       .from("blog")
       .select("title")
+      .eq("id", id)
       .limit(1)
       .single();
     if (data) title = data.title;
@@ -27,6 +30,8 @@ export async function generateMetadata({ params }: Props) {
 export default async function Page({ params }: Props) {
   const { id } = await params;
   const supabase = await sps();
+
+  let toEdit: z.infer<typeof blogSchema> | undefined;
   const isNew = id.toLowerCase() === "new";
 
   const {
@@ -35,6 +40,17 @@ export default async function Page({ params }: Props) {
 
   if (!user) notFound();
 
+  if (!isNew) {
+    const { data } = await supabase
+      .from("blog")
+      .select()
+      .eq("id", id)
+      .limit(1)
+      .single<z.infer<typeof blogSchema>>();
+
+    if (data) toEdit = data;
+  }
+
   return (
     <div
       className={`container max-w-3xl px-6 py-10
@@ -42,7 +58,7 @@ export default async function Page({ params }: Props) {
     `}
     >
       <AppHeader
-        title={isNew ? "CREATE BLOG" : `UPDATE this mF`}
+        title={isNew ? "CREATE BLOG" : `UPDATE ${toEdit?.title ?? "BLOG"}`}
         backButton="/admin"
       >
         {isNew ? null : (
@@ -53,7 +69,7 @@ export default async function Page({ params }: Props) {
         )}
       </AppHeader>
 
-      <BlogForm />
+      <BlogForm initialValue={toEdit} />
     </div>
   );
 }

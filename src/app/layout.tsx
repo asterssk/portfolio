@@ -6,6 +6,7 @@ import Image from "next/image";
 import { HeaderNav } from "@/components/header-nav";
 import { ThemeProvider } from "@/components/theme-provider";
 import { sps } from "@/lib/supabase/server";
+import { Toaster } from "@/components/ui/sonner";
 
 type Props = { children: React.ReactNode };
 
@@ -85,6 +86,8 @@ export default async function RootLayout({ children }: Props) {
               </div>
             </div>
           </footer>
+
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

@@ -1,8 +1,15 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { kBlogTypes } from "@/lib/constants";
+import { sps } from "@/lib/supabase/server";
 import { cn } from "@/lib/utils";
-import { ArrowUpRightIcon, DotIcon, HelpCircleIcon } from "lucide-react";
+import { TBlog } from "@/utils/types";
+import {
+  ArrowUpRightIcon,
+  DotIcon,
+  Grid2x2X,
+  HelpCircleIcon,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -10,16 +17,24 @@ type Props = { searchParams: Promise<{ filter?: string }> };
 
 export const metadata = { title: "Blog" };
 
-const blogs = [
-  { title: "Title", id: "asdas1" },
-  { title: "Title", id: "asdas2" },
-  { title: "Title", id: "asdas3" },
-  { title: "Title", id: "asdas4" },
-  { title: "Title", id: "asdas5" },
-];
-
 export default async function Page({ searchParams }: Props) {
+  const supabase = await sps();
   const { filter = "all" } = await searchParams;
+
+  const { data } = await supabase
+    .from("blog")
+    .select()
+    .eq("is_published", true)
+    .returns<TBlog[]>();
+
+  if (!data || data.length < 1) {
+    return (
+      <section className="flex-1 flex flex-col items-center justify-center gap-2 text-muted-foreground">
+        <Grid2x2X />
+        <span className="text-sm">No blog post at the moment.</span>
+      </section>
+    );
+  }
 
   return (
     <section>
@@ -35,15 +50,15 @@ export default async function Page({ searchParams }: Props) {
       <div className="container flex flex-col gap-10 py-10 px-6">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_15rem] place-items-start gap-10">
           {/* CONTENT */}
-          <div className="order-last lg:order-first flex flex-col gap-8">
-            {blogs.map((blog) => (
+          <div className="order-last lg:order-first flex flex-col gap-8 w-full">
+            {data.map((blog) => (
               <div
                 key={blog.id}
                 className="grid sm:grid-cols-[17rem_1fr] md:grid-cols-[20rem_1fr] gap-6"
               >
                 <div className="aspect-video overflow-clip relative w-full rounded-lg">
                   <Image
-                    src="/blog/smile.jpg"
+                    src={blog.image ?? "/placeholder.jpg"}
                     fill
                     alt="blog"
                     className="object-cover"
@@ -55,23 +70,23 @@ export default async function Page({ searchParams }: Props) {
                     <h1 className="text-xl font-semibold">{blog.title}</h1>
 
                     <div className="flex gap-2">
-                      <Badge>Badge</Badge>
-                      <Badge>Badge</Badge>
+                      {blog.categories.map((cat) => (
+                        <Badge key={cat} className="capitalize">
+                          {cat}
+                        </Badge>
+                      ))}
                     </div>
                   </div>
 
-                  <p className="line-clamp-3">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Obcaecati qui numquam quos eveniet odit mollitia perferendis
-                    neque, officiis saepe facere hic vel perspiciatis sequi
-                    earum officia! Suscipit natus assumenda atque facilis modi
-                    odio! Consectetur, nesciunt cupiditate, corrupti doloremque
-                    vel maxime sapiente dicta nam cumque labore impedit! Earum
-                    eum ratione quas.
-                  </p>
+                  <p className="line-clamp-3">{blog.content}</p>
 
                   <div className="flex items-end justify-between mt-auto">
-                    <p className="text-xs text-muted-foreground">Date posted</p>
+                    <p className="text-xs text-muted-foreground">
+                      {new Intl.DateTimeFormat("en-PH", {
+                        dateStyle: "medium",
+                        timeStyle: "short",
+                      }).format(new Date(blog.created_at))}
+                    </p>
 
                     <Link href={`/blog/${blog.id}`} passHref>
                       <Button size="fit" variant="transparent">

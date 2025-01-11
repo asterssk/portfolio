@@ -4,6 +4,7 @@ import { z } from "zod";
 export const blogSchema = z.object({
   id: z.string().nullish(),
   image: z.object({ preview: z.string(), file: z.any() }).nullish(),
+  image_path: z.string().nullish(),
   title: z
     .string({ message: "Please enter blog title" })
     .min(1, "Please enter blog title"),

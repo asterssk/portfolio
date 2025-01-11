@@ -5,6 +5,7 @@ import { sps } from "@/lib/supabase/server";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
+import { TBlog } from "@/utils/types";
 
 export const metadata = { title: "Admin" };
 
@@ -23,6 +24,8 @@ export default async function Page() {
     );
   }
 
+  const { data } = await supabase.from("blog").select().returns<TBlog[]>();
+
   return (
     <div className={`container px-6 py-10 flex flex-col gap-8`}>
       <AppHeader title="WELCOME Master!">
@@ -34,19 +37,7 @@ export default async function Page() {
         </Link>
       </AppHeader>
 
-      <BlogTable
-        data={[
-          {
-            id: "sadas",
-            title: "Title",
-            content:
-              "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Hic totam nemo debitis amet cupiditate aliquid alias aperiam modi quibusdam, iusto a, recusandae repellat, magni officia necessitatibus. Velit eveniet asperiores quo vitae molestiae doloribus voluptatibus tempora tenetur? Officia, nihil, inventore consectetur culpa at necessitatibus tenetur molestias repellat impedit optio nemo nostrum vitae placeat, cumque itaque? Eum.",
-            created_at: new Date().toDateString(),
-            is_published: true,
-            categories: ["life", "achievements"],
-          },
-        ]}
-      />
+      <BlogTable data={data ?? []} />
     </div>
   );
 }
