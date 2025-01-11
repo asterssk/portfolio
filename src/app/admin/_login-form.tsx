@@ -1,11 +1,11 @@
 "use client";
 
-import Form from "next/form";
-import { login } from "./actions";
+import { login, logout } from "./actions";
 import { Input } from "@/components/ui/input";
-import { useFormStatus } from "react-dom";
-import { useActionState } from "react";
+import { useActionState, useTransition } from "react";
 import { ActionResponse } from "@/utils/types";
+import { Button } from "@/components/ui/button";
+import { Loader2, LogOutIcon } from "lucide-react";
 
 const initialState: ActionResponse = { success: false };
 
@@ -30,5 +30,25 @@ export function LoginForm() {
 
       <button type="submit" />
     </form>
+  );
+}
+
+export function LogoutForm() {
+  const [loading, startTransition] = useTransition();
+
+  return (
+    <Button
+      disabled={loading}
+      onClick={() => {
+        startTransition(async () => {
+          await logout();
+        });
+      }}
+      size="sm"
+      className="rounded-lg"
+    >
+      {loading ? <Loader2 className="animate-spin" /> : <LogOutIcon />}
+      Logout
+    </Button>
   );
 }
