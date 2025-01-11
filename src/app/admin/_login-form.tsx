@@ -1,11 +1,9 @@
 "use client";
 
-import { login, logout } from "./actions";
+import { login } from "./actions";
 import { Input } from "@/components/ui/input";
-import { useActionState, useTransition } from "react";
+import { useActionState } from "react";
 import { ActionResponse } from "@/utils/types";
-import { Button } from "@/components/ui/button";
-import { Loader2, LogOutIcon } from "lucide-react";
 
 const initialState: ActionResponse = { success: false };
 
@@ -18,6 +16,7 @@ export function LoginForm() {
         name="passcode"
         placeholder="Enter passcode"
         type="password"
+        autoFocus
         className="text-center"
         disabled={isPending}
       />
@@ -30,25 +29,5 @@ export function LoginForm() {
 
       <button type="submit" />
     </form>
-  );
-}
-
-export function LogoutForm() {
-  const [loading, startTransition] = useTransition();
-
-  return (
-    <Button
-      disabled={loading}
-      onClick={() => {
-        startTransition(async () => {
-          await logout();
-        });
-      }}
-      size="sm"
-      className="rounded-lg"
-    >
-      {loading ? <Loader2 className="animate-spin" /> : <LogOutIcon />}
-      Logout
-    </Button>
   );
 }

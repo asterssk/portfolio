@@ -22,6 +22,13 @@ import Image from "next/image";
 import { ImageIcon } from "lucide-react";
 import { getImageData } from "@/utils/helpers";
 import React from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type Props = { initialValue?: z.infer<typeof blogSchema> };
 
@@ -29,14 +36,16 @@ export function BlogForm({ initialValue }: Props) {
   const fileRef = useRef<HTMLInputElement>(null);
   const form = useForm<z.infer<typeof blogSchema>>({
     resolver: zodResolver(blogSchema),
-    defaultValues: initialValue,
+    defaultValues: initialValue ?? { is_published: true },
   });
 
   return (
     <Form {...form}>
       <form
         className="flex flex-col gap-6"
-        onSubmit={form.handleSubmit((values) => {})}
+        onSubmit={form.handleSubmit((values) => {
+          console.log("VALUES", values);
+        })}
       >
         <FormField
           control={form.control}
@@ -90,29 +99,57 @@ export function BlogForm({ initialValue }: Props) {
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Title</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter title" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="grid grid-cols-1 sm:grid-cols-[1fr_11rem] gap-4">
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Title</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter title" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="is_published"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Status</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value ? "published" : "draft"}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a value" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="published">Published</SelectItem>
+                    <SelectItem value="draft">Draft</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         <FormField
           control={form.control}
-          name="types"
+          name="categories"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Types</FormLabel>
+              <FormLabel>Categories</FormLabel>
               <FormControl>
                 <MultiSelect
-                  placeholder="Blog types"
+                  placeholder="Categories"
                   options={kBlogTypes.map((tt) => ({
                     value: tt,
                     label: blogTypesExt[tt].label,

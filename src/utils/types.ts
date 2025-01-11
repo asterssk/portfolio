@@ -7,6 +7,7 @@ export type TBlog = {
   image?: string;
   title: string;
   content: string;
+  is_published: boolean;
   created_at: string;
-  type: (typeof kBlogTypes)[number];
+  categories: (typeof kBlogTypes)[number][];
 };

@@ -1,5 +1,6 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -42,10 +43,32 @@ const columns: ColumnDef<TBlog>[] = [
     cell: ({ row }) => <p className="line-clamp-2">{row.original.content}</p>,
   },
   {
-    accessorKey: "type",
-    header: "TYPE",
-    size: 25,
-    cell: ({ row }) => <span className="capitalize">{row.original.type}</span>,
+    accessorKey: "categories",
+    header: "CATEGORIES",
+    size: 50,
+    cell: ({ row }) => (
+      <span className="capitalize">{row.original.categories.join(", ")}</span>
+    ),
+  },
+
+  {
+    accessorKey: "is_published",
+    header: () => <div className="w-full text-center">STATUS</div>,
+    size: 30,
+    cell: ({ row }) => {
+      return (
+        <div className="w-full flex justify-center">
+          <Badge
+            className={cn(
+              "text-center",
+              row.original.is_published ? "bg-teal-600" : "bg-gray-500"
+            )}
+          >
+            {row.original.is_published ? "Published" : "Draft"}
+          </Badge>
+        </div>
+      );
+    },
   },
 ];
 
@@ -62,14 +85,16 @@ export function BlogTable({ data }: Props) {
       <Table className="table-fixed border-collapse text-xs">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
+            <TableRow key={headerGroup.id} className="hover:bg-inherit">
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead
                     key={header.id}
                     colSpan={header.colSpan}
                     style={{ width: `${header.getSize()}px` }}
-                    className={cn("font-semibold border bg-slate-100")}
+                    className={cn(
+                      "font-semibold border bg-slate-100 dark:bg-slate-900/40"
+                    )}
                   >
                     {header.isPlaceholder
                       ? null

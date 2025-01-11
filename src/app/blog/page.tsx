@@ -2,7 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { kBlogTypes } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import { ArrowUpRightIcon, DotIcon } from "lucide-react";
+import { ArrowUpRightIcon, DotIcon, HelpCircleIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -96,7 +96,7 @@ export default async function Page({ searchParams }: Props) {
                   href={`/blog?filter=${option}`}
                   scroll={false}
                   className={cn(
-                    "text-sm capitalize flex items-center",
+                    "text-[0.85rem] capitalize flex items-center",
                     isActive ? "text-primary" : ""
                   )}
                 >
@@ -105,6 +105,15 @@ export default async function Page({ searchParams }: Props) {
                 </Link>
               );
             })}
+
+            <Link
+              href={`/blog/about`}
+              scroll={false}
+              className={cn("text-[0.85rem] flex items-center gap-2 px-2")}
+            >
+              <HelpCircleIcon className="size-3" />
+              About this section
+            </Link>
           </div>
         </div>
 

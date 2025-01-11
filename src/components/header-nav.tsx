@@ -15,15 +15,26 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet";
+import { useTransition } from "react";
+import { logout } from "@/app/admin/actions";
+
+type Props = { isLoggedIn: boolean };
 
 const navs = [
   { label: "Resume", value: "resume" },
   { label: "Blog", value: "blog" },
 ];
 
-export function HeaderNav() {
+export function HeaderNav({ isLoggedIn }: Props) {
+  const [loggingOut, startLogout] = useTransition();
   const { theme, setTheme } = useTheme();
   const segment = useSelectedLayoutSegment();
+
+  const handleLogout = () => {
+    startLogout(async () => {
+      await logout();
+    });
+  };
 
   return (
     <div className="flex items-center gap-6">
@@ -43,7 +54,7 @@ export function HeaderNav() {
         ))}
       </ul>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 md:gap-4">
         <Sheet>
           <SheetTrigger asChild>
             <Button
@@ -106,6 +117,18 @@ export function HeaderNav() {
         >
           {theme === "dark" ? <SunIcon /> : <MoonStarIcon />}
         </Button>
+
+        {isLoggedIn ? (
+          <Button
+            disabled={loggingOut}
+            onClick={handleLogout}
+            size="sm"
+            variant="outline"
+            className="rounded-lg border-primary"
+          >
+            Logout
+          </Button>
+        ) : null}
       </div>
     </div>
   );

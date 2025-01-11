@@ -2,6 +2,8 @@ import { AppHeader } from "@/components/app-header";
 import { BlogForm } from "./_blog-form";
 import { sps } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { TrashIcon } from "lucide-react";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -10,13 +12,13 @@ export async function generateMetadata({ params }: Props) {
   let title = "Create Blog";
 
   if (id.toLowerCase() !== "new") {
-    // const supabase = await sps();
-    // const { data } = await supabase
-    //   .from("product_categories")
-    //   .select("label")
-    //   .limit(1)
-    //   .single();
-    // if (data) title = data.label;
+    const supabase = await sps();
+    const { data } = await supabase
+      .from("blog")
+      .select("title")
+      .limit(1)
+      .single();
+    if (data) title = data.title;
   }
 
   return { title: title };
@@ -42,7 +44,14 @@ export default async function Page({ params }: Props) {
       <AppHeader
         title={isNew ? "CREATE BLOG" : `UPDATE this mF`}
         backButton="/admin"
-      />
+      >
+        {isNew ? null : (
+          <Button size="sm" variant="destructive" className="rounded-lg">
+            <TrashIcon />
+            Delete post
+          </Button>
+        )}
+      </AppHeader>
 
       <BlogForm />
     </div>

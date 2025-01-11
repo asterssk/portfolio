@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { HeaderNav } from "@/components/header-nav";
 import { ThemeProvider } from "@/components/theme-provider";
+import { sps } from "@/lib/supabase/server";
 
 type Props = { children: React.ReactNode };
 
@@ -23,7 +24,13 @@ export const metadata: Metadata = {
   description: "My personal portfolio website",
 };
 
-export default function RootLayout({ children }: Props) {
+export default async function RootLayout({ children }: Props) {
+  const supabase = await sps();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <html lang="en">
       <body
@@ -56,7 +63,7 @@ export default function RootLayout({ children }: Props) {
                 </span>
               </Link>
 
-              <HeaderNav />
+              <HeaderNav isLoggedIn={Boolean(user)} />
             </nav>
           </header>
 

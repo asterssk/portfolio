@@ -7,10 +7,11 @@ export const blogSchema = z.object({
   title: z
     .string({ message: "Please enter blog title" })
     .min(1, "Please enter blog title"),
+  is_published: z.boolean(),
   content: z
     .string({ message: "Please enter blog content" })
     .min(10, "Please enter at least 10 characters"),
-  types: z
-    .array(z.enum(kBlogTypes), { message: "Please select a valid blog type" })
-    .nonempty("Please select at least 1 blog type"),
+  categories: z
+    .array(z.enum(kBlogTypes), { message: "Please select a valid category" })
+    .nonempty("Please select at least 1 category"),
 });
