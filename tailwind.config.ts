@@ -12,6 +12,9 @@ export default {
       container: {
         center: true,
       },
+      backgroundImage: {
+        resumeBg: "url('/resume/rb_bg.jpg')",
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

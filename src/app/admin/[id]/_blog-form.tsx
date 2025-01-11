@@ -59,6 +59,8 @@ export function BlogForm({ initialValue }: Props) {
     }
   };
 
+  console.log("AW", initialValue);
+
   return (
     <Form {...form}>
       <form
@@ -162,23 +164,25 @@ export function BlogForm({ initialValue }: Props) {
         <FormField
           control={form.control}
           name="categories"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Categories</FormLabel>
-              <FormControl>
-                <MultiSelect
-                  placeholder="Categories"
-                  options={kBlogTypes.map((tt) => ({
-                    value: tt,
-                    label: blogTypesExt[tt].label,
-                  }))}
-                  value={field.value}
-                  onValueChange={(values) => field.onChange(values)}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          render={({ field }) => {
+            return (
+              <FormItem>
+                <FormLabel>Categories</FormLabel>
+                <FormControl>
+                  <MultiSelect
+                    placeholder="Categories"
+                    options={kBlogTypes.map((tt) => ({
+                      value: tt,
+                      label: blogTypesExt[tt].label,
+                    }))}
+                    defaultValue={field.value}
+                    onValueChange={(values) => field.onChange(values)}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
         />
 
         <FormField

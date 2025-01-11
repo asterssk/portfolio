@@ -14,6 +14,18 @@ export async function saveBlog(
   let errorMessage: string | undefined = undefined;
 
   if (id) {
+    const { error } = await suapbase
+      .from("blog")
+      .update({
+        image: values.image_path,
+        title: values.title,
+        content: values.content,
+        categories: values.categories,
+        is_published: values.is_published,
+      })
+      .eq("id", id);
+
+    if (error) errorMessage = error.message;
   } else {
     const { error } = await suapbase.from("blog").insert({
       image: values.image_path,

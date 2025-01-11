@@ -19,13 +19,13 @@ export default function Page() {
     <section>
       <div
         className={cn(
-          "w-full bg-primary flex items-center justify-center p-4",
+          "bg-resumeBg bg-no-repeat bg-cover bg-top bg-fixed flex items-center justify-center",
           headingFont.className
         )}
         style={{ height: "clamp(18rem, 35vw, 40rem)" }}
       >
         <h1
-          className="text-center"
+          className="text-center text-white dark:text-black drop-shadow-lg"
           style={{ fontSize: "clamp(3.5rem, 10vw, 7rem)" }}
         >
           FULL-STACK
@@ -94,8 +94,8 @@ export default function Page() {
             <div className="flex flex-col gap-2">
               <h1 className="text-2xl font-semibold">Skills & Tech</h1>
 
-              <div className="mb-2">
-                <h1 className="text-sm font-semibold">Coding</h1>
+              <div className="mb-2 space-y-1">
+                <h1 className="text-sm">Coding</h1>
 
                 <div className="flex gap-3">
                   {kCodingSkills.map((code) => {
@@ -106,9 +106,8 @@ export default function Page() {
                 </div>
               </div>
 
-              <div>
-                <h1>Design & Planning</h1>
-
+              <div className="space-y-1">
+                <h1 className="text-sm">Design and Planning</h1>
                 <div className="flex gap-3">
                   {kDesignSkills.map((design) => {
                     const ext = designSkillsExt[design];
