@@ -97,7 +97,7 @@ export default function Page() {
               <div className="mb-2 space-y-1">
                 <h1 className="text-sm">Coding</h1>
 
-                <div className="flex gap-3">
+                <div className="flex gap-3 flex-wrap">
                   {kCodingSkills.map((code) => {
                     const ext = codingSkillsExt[code];
 
@@ -108,7 +108,7 @@ export default function Page() {
 
               <div className="space-y-1">
                 <h1 className="text-sm">Design and Planning</h1>
-                <div className="flex gap-3">
+                <div className="flex gap-3 flex-wrap">
                   {kDesignSkills.map((design) => {
                     const ext = designSkillsExt[design];
 

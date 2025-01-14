@@ -1,4 +1,4 @@
-export const kBlogTypes = ["life", "career", "achievements"] as const;
+export const kBlogTypes = ["life", "career", "achievement"] as const;
 export const kCodingSkills = [
   "js",
   "tailwind",
@@ -14,7 +14,7 @@ export const blogTypesExt: Record<
 > = {
   life: { label: "Life" },
   career: { label: "Career" },
-  achievements: { label: "Achievements" },
+  achievement: { label: "Achievement" },
 };
 
 export const codingSkillsExt: Record<
