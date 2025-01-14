@@ -61,18 +61,9 @@ export default async function Page({ searchParams }: Props) {
       left-0 right-0 md:left-auto md:top-0 bottom-0 md:w-1/2`}
           >
             <div className="flex flex-col gap-3 sm:gap-4 md:gap-8 max-w-screen-sm px-4 py-3 md:px-8 md:py-12 md:h-full">
-              <div className="flex flex-wrap items-end justify-between md:justify-start gap-4">
-                <h1 className="text-xl md:text-2xl font-semibold leading-none">
-                  {featured.title.toUpperCase()}
-                </h1>
-
-                <p className="text-sm text-muted-foreground">
-                  {new Intl.DateTimeFormat("en-PH", {
-                    dateStyle: "medium",
-                    timeStyle: "short",
-                  }).format(new Date(featured.created_at))}
-                </p>
-              </div>
+              <h1 className="text-xl md:text-2xl font-semibold leading-none">
+                {featured.title.toUpperCase()}
+              </h1>
 
               <div className="flex-grow relative overflow-hidden">
                 <p className="text-ellipsis line-clamp-1 md:line-clamp-[12]">
@@ -80,7 +71,14 @@ export default async function Page({ searchParams }: Props) {
                 </p>
               </div>
 
-              <div className="flex justify-end">
+              <div className="flex flex-wrap justify-between">
+                <h5 className="text-sm text-muted-foreground">
+                  {new Intl.DateTimeFormat("en-PH", {
+                    dateStyle: "medium",
+                    timeStyle: "short",
+                  }).format(new Date(featured.created_at))}
+                </h5>
+
                 <Link href={`/blog/${featured.id}`} passHref>
                   <Button size="fit" variant="transparent">
                     Read more
@@ -133,13 +131,13 @@ export default async function Page({ searchParams }: Props) {
 
                   <p className="line-clamp-3">{blog.content}</p>
 
-                  <div className="flex items-end justify-between mt-auto">
-                    <p className="text-xs text-muted-foreground">
+                  <div className="flex flex-wrap items-end justify-between mt-auto">
+                    <h5 className="text-xs text-muted-foreground">
                       {new Intl.DateTimeFormat("en-PH", {
                         dateStyle: "medium",
                         timeStyle: "short",
                       }).format(new Date(blog.created_at))}
-                    </p>
+                    </h5>
 
                     <Link href={`/blog/${blog.id}`} passHref>
                       <Button size="fit" variant="transparent">

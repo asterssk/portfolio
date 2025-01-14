@@ -45,3 +45,15 @@ export async function saveBlog(
 
   return errorMessage;
 }
+
+export async function deleteBlog(id?: string) {
+  const suapbase = await sps();
+  const { error } = await suapbase.from("blog").delete().eq("id", id);
+
+  if (!error) {
+    revalidatePath("/admin", "page");
+    redirect("/admin");
+  }
+
+  return error?.message;
+}

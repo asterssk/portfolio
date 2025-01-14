@@ -1,10 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import {
-  codingSkillsExt,
-  designSkillsExt,
-  kCodingSkills,
-  kDesignSkills,
-} from "@/lib/constants";
+import { skillsTech, workExperiences } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { Facebook, Github, Mail } from "lucide-react";
 import { Anton } from "next/font/google";
@@ -56,7 +51,7 @@ export default function Page() {
           </div>
 
           {/* CONTENT */}
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-10">
             <div className="flex flex-col gap-2">
               <p>I write code for the web.</p>
               <p>I also do mobile app development with flutter.</p>
@@ -66,8 +61,10 @@ export default function Page() {
 
             <Education className="flex lg:hidden flex-col gap-2 " />
 
-            <div className="flex flex-col gap-2">
-              <h1 className="text-2xl font-semibold">Career Objective</h1>
+            <div className="flex flex-col gap-4">
+              <h1 className="text-2xl font-semibold border-primary self-start border-b-2">
+                Career Objective
+              </h1>
               <p>
                 To contribute to innovative and impactful projects by leveraging
                 my full-stack web development expertise in creating
@@ -78,43 +75,52 @@ export default function Page() {
               </p>
             </div>
 
-            <div className="flex flex-col gap-2">
-              <h1 className="text-2xl font-semibold">Work Experience</h1>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat
-                molestiae, iste ratione delectus dolor veritatis officiis,
-                incidunt nam modi explicabo dolorum numquam. Porro, quae? Illum
-                quibusdam nobis perferendis reprehenderit corrupti sed velit
-                consectetur laboriosam incidunt! Beatae, explicabo dolorem
-                aliquam necessitatibus facilis consequatur nisi incidunt
-                doloremque facere tempore. Natus, magni voluptatum!
-              </p>
+            <div className="flex flex-col gap-4">
+              <h1 className="text-2xl font-semibold border-primary self-start border-b-2">
+                Work Experience
+              </h1>
+
+              <div className="flex flex-col gap-6">
+                {workExperiences.map((work, index) => (
+                  <div key={index} className="flex flex-col gap-2">
+                    <div className="flex flex-col">
+                      <h3 className="flex gap-3 font-semibold">
+                        {work.position}
+                        <span className="font-normal">{work.company}</span>
+                      </h3>
+
+                      <span className="text-muted-foreground text-sm">
+                        {work.date_duration}
+                      </span>
+                    </div>
+
+                    <ul className="list-disc ml-4 md:ml-10">
+                      {work.contents.map((content, ii) => (
+                        <li key={ii}>{content}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <div className="flex flex-col gap-2">
-              <h1 className="text-2xl font-semibold">Skills & Tech</h1>
+            <div className="flex flex-col gap-4">
+              <h1 className="text-2xl font-semibold border-primary self-start border-b-2">
+                Skills & Tech
+              </h1>
 
-              <div className="mb-2 space-y-1">
-                <h1 className="text-sm">Coding</h1>
+              <div className="flex flex-col gap-6">
+                {skillsTech.map((sk, index) => (
+                  <div key={index} className="flex flex-col gap-2">
+                    <h3 className="flex gap-3 font-semibold">{sk.title}</h3>
 
-                <div className="flex gap-3 flex-wrap">
-                  {kCodingSkills.map((code) => {
-                    const ext = codingSkillsExt[code];
-
-                    return <Badge key={code}>{ext.label}</Badge>;
-                  })}
-                </div>
-              </div>
-
-              <div className="space-y-1">
-                <h1 className="text-sm">Design and Planning</h1>
-                <div className="flex gap-3 flex-wrap">
-                  {kDesignSkills.map((design) => {
-                    const ext = designSkillsExt[design];
-
-                    return <Badge key={design}>{ext.label}</Badge>;
-                  })}
-                </div>
+                    <div className="flex gap-3 flex-wrap">
+                      {sk.items.map((item) => {
+                        return <Badge key={item}>{item}</Badge>;
+                      })}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { Button } from "./ui/button";
-import { MenuIcon, MoonStarIcon, SunIcon } from "lucide-react";
+import { MenuIcon, MoonStarIcon, SunIcon, UserIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -17,6 +17,12 @@ import {
 } from "./ui/sheet";
 import { useTransition } from "react";
 import { logout } from "@/app/admin/actions";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 type Props = { isLoggedIn: boolean };
 
@@ -54,7 +60,7 @@ export function HeaderNav({ isLoggedIn }: Props) {
         ))}
       </ul>
 
-      <div className="flex items-center gap-2 md:gap-4">
+      <div className="flex items-center gap-2">
         <Sheet>
           <SheetTrigger asChild>
             <Button
@@ -119,15 +125,19 @@ export function HeaderNav({ isLoggedIn }: Props) {
         </Button>
 
         {isLoggedIn ? (
-          <Button
-            disabled={loggingOut}
-            onClick={handleLogout}
-            size="sm"
-            variant="outline"
-            className="rounded-lg border-primary"
-          >
-            Logout
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button disabled={loggingOut} size="icon" variant="outline">
+                <UserIcon />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem asChild>
+                <Link href="/admin">Admin</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         ) : null}
       </div>
     </div>

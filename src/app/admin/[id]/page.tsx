@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { TrashIcon } from "lucide-react";
 import { z } from "zod";
 import { blogSchema } from "@/utils/schema";
+import { DeleteBlogButton } from "./_delete-blog-button";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -61,12 +62,7 @@ export default async function Page({ params }: Props) {
         title={isNew ? "CREATE BLOG" : `UPDATE ${toEdit?.title ?? "BLOG"}`}
         backButton="/admin"
       >
-        {isNew ? null : (
-          <Button size="sm" variant="destructive" className="rounded-lg">
-            <TrashIcon />
-            Delete post
-          </Button>
-        )}
+        {isNew ? null : <DeleteBlogButton id={id} />}
       </AppHeader>
 
       <BlogForm initialValue={toEdit} />

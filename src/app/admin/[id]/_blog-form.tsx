@@ -35,8 +35,6 @@ import { toast } from "sonner";
 type Props = { initialValue?: z.infer<typeof blogSchema> };
 
 export function BlogForm({ initialValue }: Props) {
-  //   const supabse = spc();
-
   const fileRef = useRef<HTMLInputElement>(null);
   const form = useForm<z.infer<typeof blogSchema>>({
     resolver: zodResolver(blogSchema),
@@ -48,8 +46,6 @@ export function BlogForm({ initialValue }: Props) {
     },
   });
 
-  //   const uploadImage = async () => {};
-
   const handleSubmit = async (values: z.infer<typeof blogSchema>) => {
     const error = await saveBlog(values, initialValue?.id);
     if (error) {
@@ -58,8 +54,6 @@ export function BlogForm({ initialValue }: Props) {
       toast.success("Blog successfully saved");
     }
   };
-
-  console.log("AW", initialValue);
 
   return (
     <Form {...form}>
