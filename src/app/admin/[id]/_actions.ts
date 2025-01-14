@@ -17,7 +17,7 @@ export async function saveBlog(
     const { error } = await suapbase
       .from("blog")
       .update({
-        image: values.image_path,
+        image_path: values.image_path,
         title: values.title,
         content: values.content,
         categories: values.categories,
@@ -28,7 +28,7 @@ export async function saveBlog(
     if (error) errorMessage = error.message;
   } else {
     const { error } = await suapbase.from("blog").insert({
-      image: values.image_path,
+      image_path: values.image_path,
       title: values.title,
       content: values.content,
       categories: values.categories,

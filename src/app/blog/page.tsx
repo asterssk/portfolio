@@ -49,7 +49,7 @@ export default async function Page({ searchParams }: Props) {
         style={{ height: "clamp(18rem, 35vw, 40rem)" }}
       >
         <Image
-          src={featured?.image ?? "/placeholder.jpg"}
+          src={featured?.image_path ?? "/placeholder.jpg"}
           fill
           alt="featured"
           className="object-cover"
@@ -109,7 +109,7 @@ export default async function Page({ searchParams }: Props) {
               >
                 <div className="aspect-video overflow-clip relative w-full rounded-lg">
                   <Image
-                    src={blog.image ?? "/placeholder.jpg"}
+                    src={blog.image_path ?? "/placeholder.jpg"}
                     fill
                     alt="blog"
                     className="object-cover"

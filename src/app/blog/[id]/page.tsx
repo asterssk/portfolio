@@ -1,4 +1,5 @@
 import { AppHeader } from "@/components/app-header";
+import { Badge } from "@/components/ui/badge";
 import { sps } from "@/lib/supabase/server";
 import { TBlog } from "@/utils/types";
 import Image from "next/image";
@@ -43,7 +44,7 @@ export default async function Page({ params }: Props) {
         style={{ height: "clamp(18rem, 30vw, 35rem)" }}
       >
         <Image
-          src={data.image ?? "/placeholder.jpg"}
+          src={data.image_path ?? "/placeholder.jpg"}
           fill
           alt={data.title}
           className="object-cover"
@@ -52,10 +53,25 @@ export default async function Page({ params }: Props) {
 
       <div
         className={`container max-w-4xl px-6 py-10
-    flex flex-col gap-8
+    flex flex-col gap-6
     `}
       >
-        <AppHeader backButton title={data.title}></AppHeader>
+        <AppHeader backButton title={data.title}>
+          <span className="text-sm">
+            {new Intl.DateTimeFormat("en-PH", {
+              dateStyle: "medium",
+              timeStyle: "short",
+            }).format(new Date(data.created_at))}
+          </span>
+        </AppHeader>
+
+        <div className="flex flex-wrap gap-2">
+          {data.categories.map((cat) => (
+            <Badge key={cat} className="capitalize">
+              {cat}
+            </Badge>
+          ))}
+        </div>
 
         <p>{data.content}</p>
       </div>

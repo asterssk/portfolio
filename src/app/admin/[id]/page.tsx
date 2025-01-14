@@ -2,8 +2,6 @@ import { AppHeader } from "@/components/app-header";
 import { BlogForm } from "./_blog-form";
 import { sps } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { TrashIcon } from "lucide-react";
 import { z } from "zod";
 import { blogSchema } from "@/utils/schema";
 import { DeleteBlogButton } from "./_delete-blog-button";

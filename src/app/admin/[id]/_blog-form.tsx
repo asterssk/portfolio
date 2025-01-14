@@ -12,15 +12,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
-import { blogTypesExt, kBlogTypes } from "@/lib/constants";
+import { blogBucket, blogTypesExt, kBlogTypes } from "@/lib/constants";
 import { blogSchema } from "@/utils/schema";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { MultiSelect } from "@/components/ui/multi-select";
-import { useRef } from "react";
-import Image from "next/image";
-import { CheckCircleIcon, ImageIcon, Loader2 } from "lucide-react";
-import { getImageData } from "@/utils/helpers";
+import { CheckCircleIcon, Loader2 } from "lucide-react";
+import { uuid } from "@/utils/helpers";
 import React from "react";
 import {
   Select,
@@ -31,11 +29,12 @@ import {
 } from "@/components/ui/select";
 import { saveBlog } from "./_actions";
 import { toast } from "sonner";
+import { spc } from "@/lib/supabase/client";
+import { ImageUploaderField } from "@/components/ui/image-uploader-field";
 
 type Props = { initialValue?: z.infer<typeof blogSchema> };
 
 export function BlogForm({ initialValue }: Props) {
-  const fileRef = useRef<HTMLInputElement>(null);
   const form = useForm<z.infer<typeof blogSchema>>({
     resolver: zodResolver(blogSchema),
     defaultValues: initialValue ?? {
@@ -46,8 +45,35 @@ export function BlogForm({ initialValue }: Props) {
     },
   });
 
+  const handleUploadImage = async (file?: File) => {
+    if (!file) return null;
+
+    const fileName = file.name;
+    const fileExt = fileName.slice(fileName.lastIndexOf(".") + 1);
+    const path = `${uuid()}.${fileExt}`;
+
+    const { data, error } = await spc()
+      .storage.from(blogBucket)
+      .upload(path, file);
+
+    if (error) toast.error(error.message);
+
+    if (!data) return null;
+    return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${blogBucket}/${data.path}`;
+  };
+
   const handleSubmit = async (values: z.infer<typeof blogSchema>) => {
-    const error = await saveBlog(values, initialValue?.id);
+    let imagePath: string | null = null;
+
+    if (values.image) {
+      imagePath = await handleUploadImage(values.image.file);
+    }
+
+    const error = await saveBlog(
+      { ...values, image_path: imagePath },
+      initialValue?.id
+    );
+
     if (error) {
       toast.error(error);
     } else {
@@ -62,54 +88,22 @@ export function BlogForm({ initialValue }: Props) {
         onSubmit={form.handleSubmit(handleSubmit)}
       >
         <FormField
+          name="image_path"
           control={form.control}
-          name="image"
-          render={({ field }) => (
-            <div className="aspect-video sm:aspect-[8/3] rounded-md overflow-clip relative border">
-              {field.value?.preview ? (
-                <React.Fragment key="__image-selector">
-                  <Image
-                    src={field.value.preview}
-                    fill
-                    alt="preview"
-                    className="object-cover"
-                  />
-
-                  <div className="transition-all inset-0 absolute flex items-center justify-center hover:backdrop-blur-sm bg-background/30 opacity-0 hover:opacity-100">
-                    <Button
-                      type="button"
-                      className="rounded-full"
-                      onClick={() => field.onChange(null)}
-                    >
-                      Clear
-                    </Button>
-                  </div>
-                </React.Fragment>
-              ) : (
-                <div
-                  key="__image-select-prompt"
-                  onClick={() => fileRef.current?.click()}
-                  className="transition-colors bg-slate-200 hover:bg-slate-200/70 dark:hover:bg-slate-900/90 dark:bg-slate-900 inset-0 absolute flex flex-col gap-3 items-center justify-center cursor-pointer"
-                >
-                  <ImageIcon className="size-10 text-muted-foreground" />
-                  <span className="text-sm text-muted-foreground">
-                    Click here to select a file
-                  </span>
-                </div>
+          render={({ field: { value: img, onChange } }) => (
+            <FormField
+              control={form.control}
+              name="image"
+              render={({ field }) => (
+                <ImageUploaderField
+                  preview={field.value?.preview ?? img}
+                  onChange={(value) => {
+                    if (!value) onChange(null);
+                    field.onChange(value);
+                  }}
+                />
               )}
-
-              <input
-                ref={fileRef}
-                type="file"
-                accept="image/*"
-                placeholder="Select an image"
-                className="sr-only"
-                onChange={(event) => {
-                  const { files, displayUrl } = getImageData(event);
-                  field.onChange({ preview: displayUrl, file: files.item(0) });
-                }}
-              />
-            </div>
+            />
           )}
         />
 
