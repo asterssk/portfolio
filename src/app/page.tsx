@@ -1,15 +1,13 @@
-// export const metadata = { title: "Portfolio" };
-
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   ChevronsLeftRightEllipsisIcon,
   ListTodoIcon,
   PaletteIcon,
-  SendHorizontalIcon,
   TabletSmartphoneIcon,
 } from "lucide-react";
+import { cookies } from "next/headers";
+import { MessageForm } from "./_message-form";
+import { machineIdCookieKey } from "@/lib/constants";
+import { sps } from "@/lib/supabase/server";
 
 const works = [
   {
@@ -38,7 +36,18 @@ const works = [
   },
 ];
 
-export default function Page() {
+export default async function Page() {
+  const supabase = await sps();
+  const cookieStore = await cookies();
+  const machineKey = cookieStore.get(machineIdCookieKey)?.value;
+
+  const { data } = await supabase
+    .from("messages")
+    .select("message")
+    .eq("id", machineKey)
+    .limit(1)
+    .single<{ message: string }>();
+
   return (
     <section className="flex-1 flex flex-col">
       <div className="container px-6 py-10 max-w-screen-lg space-y-12 flex-1">
@@ -67,16 +76,7 @@ export default function Page() {
         </div>
       </div>
 
-      <form className="flex gap-4 mt-auto container px-6 py-8 max-w-screen-lg">
-        <div className="flex-1">
-          <Label htmlFor="message">Send me a message</Label>
-          <Input id="message" placeholder="Start typing..." />
-        </div>
-        <Button className="self-end mt-1" type="submit">
-          Send
-          <SendHorizontalIcon />
-        </Button>
-      </form>
+      <MessageForm mymsg={data?.message} />
     </section>
   );
 }

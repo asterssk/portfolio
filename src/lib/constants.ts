@@ -1,4 +1,5 @@
 export const blogBucket = "blogs";
+export const machineIdCookieKey = "machineId";
 
 export const kBlogTypes = ["life", "career", "achievement"] as const;
 
