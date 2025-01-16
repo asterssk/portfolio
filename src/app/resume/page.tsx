@@ -3,22 +3,36 @@ import { skillsTech, workExperiences } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { Facebook, Github, Mail } from "lucide-react";
 import { Anton } from "next/font/google";
+import Image from "next/image";
 import Link from "next/link";
 
 const headingFont = Anton({ weight: "400", subsets: ["latin"] });
 
 export const metadata = { title: "Resume" };
 
-export default function Page() {
+export default async function Page() {
   return (
     <section>
       <div
         className={cn(
-          "bg-resumeBg bg-no-repeat bg-cover bg-top bg-fixed flex items-center justify-center",
+          //   "bg-resumeBg bg-no-repeat bg-cover bg-top bg-fixed flex items-center justify-center",
+          "relative flex items-center justify-center",
           headingFont.className
         )}
         style={{ height: "clamp(18rem, 35vw, 40rem)" }}
       >
+        <Image
+          src="/resume/rb_bg.jpg"
+          fill
+          alt="background"
+          className="object-cover"
+          priority
+          placeholder="blur"
+          // tsk
+          blurDataURL="/resume/rb_bg.jpg"
+          quality={80}
+        />
+
         <h1
           className="text-center text-white dark:text-black drop-shadow-lg"
           style={{ fontSize: "clamp(3.5rem, 10vw, 7rem)" }}

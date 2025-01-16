@@ -37,11 +37,9 @@ const works = [
 ];
 
 export default async function Page() {
-  const supabase = await sps();
-  const cookieStore = await cookies();
-  const machineKey = cookieStore.get(machineIdCookieKey)?.value;
+  const machineKey = (await cookies()).get(machineIdCookieKey)?.value;
 
-  const { data } = await supabase
+  const { data } = await (await sps())
     .from("messages")
     .select("message")
     .eq("id", machineKey)
@@ -50,13 +48,23 @@ export default async function Page() {
 
   return (
     <section className="flex-1 flex flex-col">
-      <div className="container px-6 py-10 max-w-screen-lg space-y-12 flex-1">
-        <p className="text-center max-w-screen-md mx-auto">
-          I&apos;m a developer with a passion for building user-friendly web and
-          mobile apps. I specialize in Next.js, project management, and graphic
-          design. I enjoy creating beautiful and functional products that make a
-          difference.
-        </p>
+      <div className="container px-6 py-10 max-w-screen-lg space-y-20 flex-1">
+        <div className="flex flex-col gap-9 justify-center max-w-xl mx-auto">
+          <h1
+            className="text-center font-extrabold"
+            style={{ fontSize: "clamp(1.8rem, 9vw, 3.2rem)" }}
+          >
+            <span className="text-primary">Crafting Seamless</span>
+            <br />
+            <span>Digital Experiences</span>
+          </h1>
+
+          <p className="text-center text-sm sm:text-xl">
+            From concept to deployment, I craft dynamic web experiences that
+            combine aesthetic design, seamless functionality, and the latest in
+            web development technology.
+          </p>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {works.map((work, index) => (

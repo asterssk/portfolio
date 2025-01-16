@@ -52,6 +52,10 @@ export default async function Page({ searchParams }: Props) {
           src={featured?.image_path ?? "/placeholder.jpg"}
           fill
           alt="featured"
+          priority
+          placeholder="blur"
+          blurDataURL={"/placeholder.jpg"}
+          quality={80}
           className="object-cover"
         />
 
@@ -113,6 +117,10 @@ export default async function Page({ searchParams }: Props) {
                     fill
                     alt="blog"
                     className="object-cover"
+                    placeholder="blur"
+                    // tsk
+                    blurDataURL={"/placeholder.jpg"}
+                    quality={75}
                   />
                 </div>
 

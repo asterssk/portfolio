@@ -47,6 +47,11 @@ export default async function Page({ params }: Props) {
           src={data.image_path ?? "/placeholder.jpg"}
           fill
           alt={data.title}
+          priority
+          placeholder="blur"
+          // tsk
+          blurDataURL={"/placeholder.jpg"}
+          quality={80}
           className="object-cover"
         />
       </div>

@@ -7,6 +7,7 @@ import { HeaderNav } from "@/components/header-nav";
 import { ThemeProvider } from "@/components/theme-provider";
 import { sps } from "@/lib/supabase/server";
 import { Toaster } from "@/components/ui/sonner";
+import { cn } from "@/lib/utils";
 
 type Props = { children: React.ReactNode };
 
@@ -68,10 +69,61 @@ export default async function RootLayout({ children }: Props) {
             </nav>
           </header>
 
-          {children}
+          <main className="flex-1 flex flex-col">
+            <div className="relative flex-1 bg-background border-b">
+              {children}
+            </div>
 
-          <footer className="mt-auto text-white bg-stone-950 dark:bg-neutral-950">
-            <div className="container flex justify-between items-center py-8 text-sm">
+            <footer
+              className={cn(
+                "sticky -z-10 bottom-0 left-0 w-full h-32",
+                "bg-stone-950 dark:bg-neutral-950",
+                "flex items-center"
+              )}
+            >
+              <div className="container flex flex-wrap justify-center md:justify-between gap-4 md:gap-10 items-center px-6">
+                <span className="text-sm text-white">
+                  All rights reserved. &copy;{new Date().getFullYear()}
+                </span>
+                <div>
+                  <a href="https://ko-fi.com/I3I718RZ8J" target="_blank">
+                    <Image
+                      height={120}
+                      width={120}
+                      // style="border:0px;height:36px;"
+                      src="https://storage.ko-fi.com/cdn/kofi6.png?v=6"
+                      alt="Buy Me a Coffee at ko-fi.com"
+                    />
+                  </a>
+                </div>
+              </div>
+
+              {/* <div className="relative overflow-hidden w-full h-full flex justify-end px-12 text-right items-start py-12 text-[#ff5941]">
+                <div className="flex flex-row space-x-12 sm:pace-x-16  md:space-x-24 text-sm sm:text-lg md:text-xl">
+                  <ul>
+                    <li className="hover:underline cursor-pointer">Home</li>
+                    <li className="hover:underline cursor-pointer">Docs</li>
+                    <li className="hover:underline cursor-pointer">Comps</li>
+                  </ul>
+                  <ul>
+                    <li className="hover:underline cursor-pointer">Github</li>
+                    <li className="hover:underline cursor-pointer">
+                      Instagram
+                    </li>
+                    <li className="hover:underline cursor-pointer">
+                      X (Twitter)
+                    </li>
+                  </ul>
+                </div>
+                <h2 className="absolute bottom-0 left-0  translate-y-1/3 sm:text-[192px]  text-[80px] text-[#ff5941] font-calendas">
+                  fancy
+                </h2>
+              </div> */}
+            </footer>
+          </main>
+
+          {/* <footer className={cn(`text-white bg-stone-950 dark:bg-neutral-950`)}>
+            <div className="container flex flex-wrap justify-between items-center py-8 text-sm">
               <span>All rights reserved. &copy;{new Date().getFullYear()}</span>
               <div>
                 <a href="https://ko-fi.com/I3I718RZ8J" target="_blank">
@@ -85,7 +137,7 @@ export default async function RootLayout({ children }: Props) {
                 </a>
               </div>
             </div>
-          </footer>
+          </footer> */}
 
           <Toaster />
         </ThemeProvider>
