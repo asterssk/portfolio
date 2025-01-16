@@ -86,7 +86,8 @@ export default async function Page({ searchParams }: Props) {
               return (
                 <Link
                   key={option}
-                  href={`/blog?filter=${option}`}
+                  href={{ pathname: "/blog", query: { filter: option } }}
+                  replace
                   scroll={false}
                   className={cn(
                     "text-[0.85rem] capitalize flex items-center",

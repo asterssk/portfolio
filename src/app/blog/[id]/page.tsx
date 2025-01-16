@@ -1,8 +1,9 @@
 import { AppHeader } from "@/components/app-header";
+import { FeatureBlock } from "@/components/feature";
 import { Badge } from "@/components/ui/badge";
 import { sps } from "@/lib/supabase/server";
+import { cn } from "@/lib/utils";
 import { TBlog } from "@/utils/types";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 
 type Props = { params: Promise<{ id: string }> };
@@ -39,27 +40,10 @@ export default async function Page({ params }: Props) {
 
   return (
     <section>
-      <div
-        className="overflow-clip relative w-full"
-        style={{ height: "clamp(18rem, 30vw, 35rem)" }}
-      >
-        <Image
-          src={data.image_path ?? "/placeholder.jpg"}
-          fill
-          alt={data.title}
-          priority
-          placeholder="blur"
-          // tsk
-          blurDataURL={"/placeholder.jpg"}
-          quality={80}
-          className="object-cover"
-        />
-      </div>
+      <FeatureBlock image={data.image_path} alt={data.title} />
 
       <div
-        className={`container max-w-4xl px-6 py-10
-    flex flex-col gap-6
-    `}
+        className={cn("container max-w-4xl px-6 py-10", "flex flex-col gap-6")}
       >
         <AppHeader backButton title={data.title}>
           <span className="text-sm">

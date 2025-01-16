@@ -2,9 +2,14 @@ import React from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
-type Props = { children: React.ReactNode; image?: string; className?: string };
+type Props = {
+  children?: React.ReactNode;
+  alt?: string;
+  image?: string;
+  className?: string;
+};
 
-export function FeatureBlock({ children, image, className }: Props) {
+export function FeatureBlock({ children, alt, image, className }: Props) {
   return (
     <div
       className={cn("relative flex items-center justify-center", className)}
@@ -13,7 +18,7 @@ export function FeatureBlock({ children, image, className }: Props) {
       <Image
         src={image ?? "/placeholder.svg"}
         fill
-        alt="background"
+        alt={alt ?? "feature"}
         className={cn(
           "object-cover",
           image ? "" : "dark:brightness-[0.15] dark:grayscale"
