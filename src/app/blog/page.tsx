@@ -87,6 +87,7 @@ export default async function Page({ searchParams }: Props) {
                 <Link
                   key={option}
                   href={{ pathname: "/blog", query: { filter: option } }}
+                  prefetch
                   replace
                   scroll={false}
                   className={cn(
