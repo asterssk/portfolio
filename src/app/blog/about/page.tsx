@@ -1,4 +1,5 @@
 import { AppHeader } from "@/components/app-header";
+import { cn } from "@/lib/utils";
 import {
   CodeXmlIcon,
   GithubIcon,
@@ -71,25 +72,34 @@ export default function Page() {
         <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
           <li className="aspect-video relative w-full rounded-lg overflow-clip">
             <Image
-              src="/placeholder.jpg"
+              src="/placeholder.svg"
               fill
-              className="object-cover"
+              className={cn(
+                "object-cover",
+                "dark:brightness-[0.15] dark:grayscale"
+              )}
               alt="__placeholder"
             />
           </li>
           <li className="aspect-video relative w-full rounded-lg overflow-clip">
             <Image
-              src="/placeholder.jpg"
+              src="/placeholder.svg"
               fill
-              className="object-cover"
+              className={cn(
+                "object-cover",
+                "dark:brightness-[0.15] dark:grayscale"
+              )}
               alt="__placeholder"
             />
           </li>
           <li className="aspect-video relative w-full rounded-lg overflow-clip">
             <Image
-              src="/placeholder.jpg"
+              src="/placeholder.svg"
               fill
-              className="object-cover"
+              className={cn(
+                "object-cover",
+                "dark:brightness-[0.15] dark:grayscale"
+              )}
               alt="__placeholder"
             />
           </li>

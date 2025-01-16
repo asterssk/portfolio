@@ -1,5 +1,6 @@
 import { AppHeader } from "@/components/app-header";
 import { FeatureBlock } from "@/components/feature";
+import { HtmlRenderer } from "@/components/html-renderer";
 import { Badge } from "@/components/ui/badge";
 import { sps } from "@/lib/supabase/server";
 import { cn } from "@/lib/utils";
@@ -62,7 +63,7 @@ export default async function Page({ params }: Props) {
           ))}
         </div>
 
-        <p>{data.content}</p>
+        <HtmlRenderer value={data.content} />
       </div>
     </section>
   );

@@ -8,6 +8,7 @@ import { ArrowRightIcon, DotIcon, HelpCircleIcon } from "lucide-react";
 import Link from "next/link";
 import { BlogList, BlogListFallback } from "./_blog-list";
 import { Suspense } from "react";
+import { HtmlRenderer } from "@/components/html-renderer";
 
 type Props = { searchParams: Promise<{ filter?: string }> };
 
@@ -45,9 +46,10 @@ export default async function Page({ searchParams }: Props) {
               </h1>
 
               <div className="flex-grow relative overflow-hidden">
-                <p className="text-ellipsis line-clamp-1 md:line-clamp-[12]">
-                  {featured.content}
-                </p>
+                <HtmlRenderer
+                  value={featured.content}
+                  className="text-ellipsis line-clamp-1 md:line-clamp-[12]"
+                />
               </div>
 
               <div className="flex flex-wrap justify-between">

@@ -1,5 +1,6 @@
 "use client";
 
+import { HtmlRenderer } from "@/components/html-renderer";
 import { Badge } from "@/components/ui/badge";
 import {
   Table,
@@ -40,7 +41,9 @@ const columns: ColumnDef<TBlog>[] = [
   {
     accessorKey: "content",
     header: "CONTENT",
-    cell: ({ row }) => <p className="line-clamp-2">{row.original.content}</p>,
+    cell: ({ row }) => (
+      <HtmlRenderer value={row.original.content} className="line-clamp-1" />
+    ),
   },
   {
     accessorKey: "categories",

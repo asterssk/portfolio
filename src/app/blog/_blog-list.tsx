@@ -1,3 +1,4 @@
+import { HtmlRenderer } from "@/components/html-renderer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -57,7 +58,9 @@ export async function BlogList({ filter }: Props) {
               </div>
             </div>
 
-            <p className="line-clamp-3">{blog.content}</p>
+            <HtmlRenderer value={blog.content} className="line-clamp-3" />
+
+            {/* <p className="line-clamp-3">{blog.content}</p> */}
 
             <div className="flex flex-wrap items-end justify-between mt-auto">
               <h5 className="text-xs text-muted-foreground">

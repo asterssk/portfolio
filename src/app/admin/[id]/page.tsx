@@ -1,10 +1,10 @@
 import { AppHeader } from "@/components/app-header";
-import { BlogForm } from "./_blog-form";
 import { sps } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import { z } from "zod";
 import { blogSchema } from "@/utils/schema";
 import { DeleteBlogButton } from "./_delete-blog-button";
+import { BlogForm } from "./_form";
 
 type Props = { params: Promise<{ id: string }> };
 

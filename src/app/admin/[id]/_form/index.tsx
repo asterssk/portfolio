@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Textarea } from "@/components/ui/textarea";
 import { blogBucket, blogTypesExt, kBlogTypes } from "@/lib/constants";
 import { blogSchema } from "@/utils/schema";
 import { useForm } from "react-hook-form";
@@ -27,10 +26,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { saveBlog } from "./_actions";
 import { toast } from "sonner";
 import { spc } from "@/lib/supabase/client";
 import { ImageUploaderField } from "@/components/ui/image-uploader-field";
+import { saveBlog } from "../_actions";
+import { BlogContentEditor } from "./editor";
 
 type Props = { initialValue?: z.infer<typeof blogSchema> };
 
@@ -177,13 +177,7 @@ export function BlogForm({ initialValue }: Props) {
           control={form.control}
           name="content"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Content</FormLabel>
-              <FormControl>
-                <Textarea placeholder="Enter content" rows={5} {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+            <BlogContentEditor value={field.value} onChange={field.onChange} />
           )}
         />
 
