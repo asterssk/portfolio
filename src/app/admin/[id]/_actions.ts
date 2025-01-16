@@ -21,6 +21,7 @@ export async function saveBlog(
         title: values.title,
         content: values.content,
         categories: values.categories,
+        official_date: values.official_date,
         is_published: values.is_published,
       })
       .eq("id", id);
@@ -32,6 +33,7 @@ export async function saveBlog(
       title: values.title,
       content: values.content,
       categories: values.categories,
+      official_date: values.official_date,
       is_published: values.is_published,
     });
 

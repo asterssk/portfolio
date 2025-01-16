@@ -16,7 +16,7 @@ import { blogSchema } from "@/utils/schema";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { MultiSelect } from "@/components/ui/multi-select";
-import { CheckCircleIcon, Loader2 } from "lucide-react";
+import { CalendarIcon, CheckCircleIcon, Loader2 } from "lucide-react";
 import { uuid } from "@/utils/helpers";
 import React from "react";
 import {
@@ -31,6 +31,14 @@ import { spc } from "@/lib/supabase/client";
 import { ImageUploaderField } from "@/components/ui/image-uploader-field";
 import { saveBlog } from "../_actions";
 import { BlogContentEditor } from "./editor";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import { cn } from "@/lib/utils";
 
 type Props = { initialValue?: z.infer<typeof blogSchema> };
 
@@ -147,31 +155,76 @@ export function BlogForm({ initialValue }: Props) {
               </FormItem>
             )}
           />
-        </div>
 
-        <FormField
-          control={form.control}
-          name="categories"
-          render={({ field }) => {
-            return (
-              <FormItem>
-                <FormLabel>Categories</FormLabel>
-                <FormControl>
-                  <MultiSelect
-                    placeholder="Categories"
-                    options={kBlogTypes.map((tt) => ({
-                      value: tt,
-                      label: blogTypesExt[tt].label,
-                    }))}
-                    defaultValue={field.value}
-                    onValueChange={(values) => field.onChange(values)}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            );
-          }}
-        />
+          <FormField
+            control={form.control}
+            name="categories"
+            render={({ field }) => {
+              return (
+                <FormItem>
+                  <FormLabel>Categories</FormLabel>
+                  <FormControl>
+                    <MultiSelect
+                      placeholder="Categories"
+                      options={kBlogTypes.map((tt) => ({
+                        value: tt,
+                        label: blogTypesExt[tt].label,
+                      }))}
+                      defaultValue={field.value}
+                      onValueChange={(values) => field.onChange(values)}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
+          />
+
+          <FormField
+            control={form.control}
+            name="official_date"
+            render={({ field }) => {
+              return (
+                <FormItem className="flex flex-col self-end">
+                  <FormLabel>Event Date</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-full h-[2.55rem] text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={
+                          field.value ? new Date(field.value) : undefined
+                        }
+                        onSelect={(date) =>
+                          field.onChange(date?.toDateString())
+                        }
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
+          />
+        </div>
 
         <FormField
           control={form.control}

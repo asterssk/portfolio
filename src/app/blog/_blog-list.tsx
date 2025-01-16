@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { sps } from "@/lib/supabase/server";
 import { TBlog } from "@/utils/types";
+import { format } from "date-fns";
 import { ArrowUpRightIcon, Grid2x2X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,7 +17,9 @@ export async function BlogList({ filter }: Props) {
 
   if (filter !== "all") blogQry = blogQry.contains("categories", [filter]);
 
-  const { data } = await blogQry.returns<TBlog[]>();
+  const { data } = await blogQry
+    .order("official_date", { ascending: false })
+    .returns<TBlog[]>();
 
   return (
     <div className="order-last lg:order-first flex flex-col gap-8 w-full h-full">
@@ -64,10 +67,7 @@ export async function BlogList({ filter }: Props) {
 
             <div className="flex flex-wrap items-end justify-between mt-auto">
               <h5 className="text-xs text-muted-foreground">
-                {new Intl.DateTimeFormat("en-PH", {
-                  dateStyle: "medium",
-                  timeStyle: "short",
-                }).format(new Date(blog.created_at))}
+                {format(blog.official_date, "PPP")}
               </h5>
 
               <Link href={`/blog/${blog.id}`} passHref>

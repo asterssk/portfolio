@@ -49,6 +49,7 @@ export function HeaderNav({ isLoggedIn }: Props) {
           <li key={nav.value}>
             <Link
               href={`/${nav.value}`}
+              prefetch
               className={cn(
                 "transition-all font-semibold",
                 segment === nav.value ? "text-primary" : "hover:text-primary"

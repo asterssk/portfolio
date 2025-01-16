@@ -4,6 +4,7 @@ export type ActionResponse = { success: boolean; message?: string };
 
 export type TBlog = {
   id: string;
+  official_date: string;
   image_path?: string;
   title: string;
   content: string;

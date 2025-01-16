@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { sps } from "@/lib/supabase/server";
 import { cn } from "@/lib/utils";
 import { TBlog } from "@/utils/types";
+import { format } from "date-fns";
 import { notFound } from "next/navigation";
 
 type Props = { params: Promise<{ id: string }> };
@@ -47,12 +48,7 @@ export default async function Page({ params }: Props) {
         className={cn("container max-w-4xl px-6 py-10", "flex flex-col gap-6")}
       >
         <AppHeader backButton title={data.title}>
-          <span className="text-sm">
-            {new Intl.DateTimeFormat("en-PH", {
-              dateStyle: "medium",
-              timeStyle: "short",
-            }).format(new Date(data.created_at))}
-          </span>
+          <span className="text-sm">{format(data.official_date, "PPP")}</span>
         </AppHeader>
 
         <div className="flex flex-wrap gap-2">
