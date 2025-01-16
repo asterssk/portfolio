@@ -1,4 +1,6 @@
 import { AppHeader } from "@/components/app-header";
+import { ZoomableImage } from "@/components/zoomable-image";
+import { adminPagePreviewPaths } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import {
   CodeXmlIcon,
@@ -70,39 +72,24 @@ export default function Page() {
       <section>
         <h2 className="text-xl font-bold">Admin Page Preview</h2>
         <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-          <li className="aspect-video relative w-full rounded-lg overflow-clip">
-            <Image
-              src="/placeholder.svg"
-              fill
-              className={cn(
-                "object-cover",
-                "dark:brightness-[0.15] dark:grayscale"
-              )}
-              alt="__placeholder"
-            />
-          </li>
-          <li className="aspect-video relative w-full rounded-lg overflow-clip">
-            <Image
-              src="/placeholder.svg"
-              fill
-              className={cn(
-                "object-cover",
-                "dark:brightness-[0.15] dark:grayscale"
-              )}
-              alt="__placeholder"
-            />
-          </li>
-          <li className="aspect-video relative w-full rounded-lg overflow-clip">
-            <Image
-              src="/placeholder.svg"
-              fill
-              className={cn(
-                "object-cover",
-                "dark:brightness-[0.15] dark:grayscale"
-              )}
-              alt="__placeholder"
-            />
-          </li>
+          {adminPagePreviewPaths.map((path) => (
+            <li
+              key={path}
+              className="aspect-video relative w-full rounded-lg overflow-clip border"
+            >
+              <ZoomableImage path={path}>
+                <Image
+                  src={path}
+                  fill
+                  className={cn(
+                    "object-cover",
+                    "dark:brightness-[0.15] dark:grayscale"
+                  )}
+                  alt={path}
+                />
+              </ZoomableImage>
+            </li>
+          ))}
         </ul>
       </section>
 
