@@ -1,9 +1,9 @@
+import { FeatureBlock } from "@/components/feature";
 import { Badge } from "@/components/ui/badge";
 import { skillsTech, workExperiences } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { Facebook, Github, Mail } from "lucide-react";
 import { Anton } from "next/font/google";
-import Image from "next/image";
 import Link from "next/link";
 
 const headingFont = Anton({ weight: "400", subsets: ["latin"] });
@@ -13,26 +13,7 @@ export const metadata = { title: "Resume" };
 export default async function Page() {
   return (
     <section>
-      <div
-        className={cn(
-          //   "bg-resumeBg bg-no-repeat bg-cover bg-top bg-fixed flex items-center justify-center",
-          "relative flex items-center justify-center",
-          headingFont.className
-        )}
-        style={{ height: "clamp(18rem, 35vw, 40rem)" }}
-      >
-        <Image
-          src="/resume/rb_bg.jpg"
-          fill
-          alt="background"
-          className="object-cover"
-          priority
-          placeholder="blur"
-          // tsk
-          blurDataURL="/resume/rb_bg.jpg"
-          quality={80}
-        />
-
+      <FeatureBlock image="/resume/rb_bg.jpg" className={headingFont.className}>
         <h1
           className="text-center text-white dark:text-black drop-shadow-lg"
           style={{ fontSize: "clamp(3.5rem, 10vw, 7rem)" }}
@@ -41,7 +22,7 @@ export default async function Page() {
           <br />
           WEB DEVELOPER
         </h1>
-      </div>
+      </FeatureBlock>
 
       <div className="container flex flex-col gap-10 py-10 px-6">
         <div className="grid grid-cols-1 lg:grid-cols-[20rem_1fr] place-items-start gap-10">

@@ -1,18 +1,13 @@
-import { Badge } from "@/components/ui/badge";
+import { FeatureBlock } from "@/components/feature";
 import { Button } from "@/components/ui/button";
 import { kBlogTypes } from "@/lib/constants";
 import { sps } from "@/lib/supabase/server";
 import { cn } from "@/lib/utils";
 import { TBlog } from "@/utils/types";
-import {
-  ArrowRightIcon,
-  ArrowUpRightIcon,
-  DotIcon,
-  Grid2x2X,
-  HelpCircleIcon,
-} from "lucide-react";
-import Image from "next/image";
+import { ArrowRightIcon, DotIcon, HelpCircleIcon } from "lucide-react";
 import Link from "next/link";
+import { BlogList, BlogListFallback } from "./_blog-list";
+import { Suspense } from "react";
 
 type Props = { searchParams: Promise<{ filter?: string }> };
 
@@ -30,39 +25,19 @@ async function fetchFeaturedBlog() {
 }
 
 export default async function Page({ searchParams }: Props) {
-  const supabase = await sps();
-  const { filter = "all" } = await searchParams;
-
-  let blogQry = supabase.from("blog").select().eq("is_published", true);
-
-  if (filter !== "all") blogQry = blogQry.contains("categories", [filter]);
-
-  const { data } = await blogQry.returns<TBlog[]>();
+  const { filter } = await searchParams;
 
   const featured = await fetchFeaturedBlog();
 
   return (
     <section>
-      {/* FEATURE */}
-      <div
-        className="overflow-clip relative w-full"
-        style={{ height: "clamp(18rem, 35vw, 40rem)" }}
-      >
-        <Image
-          src={featured?.image_path ?? "/placeholder.jpg"}
-          fill
-          alt="featured"
-          priority
-          placeholder="blur"
-          blurDataURL={"/placeholder.jpg"}
-          quality={80}
-          className="object-cover"
-        />
-
+      <FeatureBlock image={featured?.image_path}>
         {featured ? (
           <div
-            className={`bg-background/50 absolute overflow-hidden
-      left-0 right-0 md:left-auto md:top-0 bottom-0 md:w-1/2`}
+            className={cn(
+              "bg-background/50 absolute overflow-hidden",
+              "left-0 right-0 md:left-auto md:top-0 bottom-0 md:w-1/2"
+            )}
           >
             <div className="flex flex-col gap-3 sm:gap-4 md:gap-8 max-w-screen-sm px-4 py-3 md:px-8 md:py-12 md:h-full">
               <h1 className="text-xl md:text-2xl font-semibold leading-none">
@@ -93,71 +68,15 @@ export default async function Page({ searchParams }: Props) {
             </div>
           </div>
         ) : null}
-      </div>
+      </FeatureBlock>
 
       <div className="container flex flex-col gap-10 py-10 px-6">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_15rem] place-items-start gap-10">
-          {/* CONTENT */}
-          <div className="order-last lg:order-first flex flex-col gap-8 w-full h-full">
-            {!data || data.length < 1 ? (
-              <div className="flex flex-col items-center justify-center gap-2 text-muted-foreground py-6">
-                <Grid2x2X />
-                <span className="text-sm">No blog post at the moment.</span>
-              </div>
-            ) : null}
+          {/* <BlogListFallback /> */}
 
-            {data?.map((blog) => (
-              <div
-                key={blog.id}
-                className="grid sm:grid-cols-[17rem_1fr] md:grid-cols-[20rem_1fr] gap-6"
-              >
-                <div className="aspect-video overflow-clip relative w-full rounded-lg">
-                  <Image
-                    src={blog.image_path ?? "/placeholder.jpg"}
-                    fill
-                    alt="blog"
-                    className="object-cover"
-                    placeholder="blur"
-                    // tsk
-                    blurDataURL={"/placeholder.jpg"}
-                    quality={75}
-                  />
-                </div>
-
-                <div className="flex flex-col gap-2">
-                  <div className="flex flex-wrap items-start justify-between">
-                    <h1 className="text-xl font-semibold">{blog.title}</h1>
-
-                    <div className="flex flex-wrap gap-2">
-                      {blog.categories.map((cat) => (
-                        <Badge key={cat} className="capitalize">
-                          {cat}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-
-                  <p className="line-clamp-3">{blog.content}</p>
-
-                  <div className="flex flex-wrap items-end justify-between mt-auto">
-                    <h5 className="text-xs text-muted-foreground">
-                      {new Intl.DateTimeFormat("en-PH", {
-                        dateStyle: "medium",
-                        timeStyle: "short",
-                      }).format(new Date(blog.created_at))}
-                    </h5>
-
-                    <Link href={`/blog/${blog.id}`} passHref>
-                      <Button size="fit" variant="transparent">
-                        Read post
-                        <ArrowUpRightIcon />
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <Suspense fallback={<BlogListFallback />}>
+            <BlogList filter={filter ?? "all"} />
+          </Suspense>
 
           {/* FILTERS */}
           <div className="sticky top-14 flex lg:flex-col bg-background border-b lg:border-b-0 gap-4 lg:gap-3 w-full px-4 py-3 lg:py-6 overflow-auto">
@@ -193,7 +112,7 @@ export default async function Page({ searchParams }: Props) {
           </div>
         </div>
 
-        <Button className="self-center">Load more</Button>
+        {/* <Button className="self-center">Load more</Button> */}
       </div>
     </section>
   );
