@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { sps } from "@/lib/supabase/server";
+import { cn } from "@/lib/utils";
 import { TBlog } from "@/utils/types";
 import { format } from "date-fns";
 import { ArrowUpRightIcon, Grid2x2X } from "lucide-react";
@@ -33,7 +34,9 @@ export async function BlogList({ filter }: Props) {
       {data?.map((blog) => (
         <div
           key={blog.id}
-          className="grid sm:grid-cols-[17rem_1fr] md:grid-cols-[20rem_1fr] gap-6"
+          className={cn(
+            "grid sm:grid-cols-[17rem_1fr] md:grid-cols-[20rem_1fr] gap-6"
+          )}
         >
           <div className="aspect-video overflow-clip relative w-full rounded-lg">
             <Image
@@ -41,16 +44,18 @@ export async function BlogList({ filter }: Props) {
               fill
               alt="blog"
               className="object-cover"
-              placeholder="blur-sm"
+              //   placeholder="blur-sm"
               // tsk
               blurDataURL={"/placeholder.svg"}
               quality={75}
             />
           </div>
 
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-wrap items-start justify-between">
-              <h1 className="text-xl font-semibold">{blog.title}</h1>
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-wrap items-center justify-between gap-1">
+              <h1 className="text-xl font-semibold line-clamp-1">
+                {blog.title}
+              </h1>
 
               <div className="flex flex-wrap gap-2">
                 {blog.categories.map((cat) => (
@@ -61,9 +66,10 @@ export async function BlogList({ filter }: Props) {
               </div>
             </div>
 
-            <HtmlRenderer value={blog.content} className="line-clamp-3" />
-
-            {/* <p className="line-clamp-3">{blog.content}</p> */}
+            <HtmlRenderer
+              value={blog.content}
+              className="line-clamp-3 text-sm"
+            />
 
             <div className="flex flex-wrap items-end justify-between mt-auto">
               <h5 className="text-xs text-muted-foreground">

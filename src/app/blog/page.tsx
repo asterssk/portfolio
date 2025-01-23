@@ -18,11 +18,11 @@ async function fetchFeaturedBlog() {
   const supabase = await sps();
   const { data } = await supabase
     .from("featured_blogs")
-    .select("blog(*)")
+    .select("blog(*), feature")
     .order("created_at", { ascending: false })
     .limit(1)
-    .single<{ blog: TBlog }>();
-  return data?.blog;
+    .single<{ blog: TBlog; feature: string }>();
+  return data;
 }
 
 export default async function Page({ searchParams }: Props) {
@@ -32,22 +32,22 @@ export default async function Page({ searchParams }: Props) {
 
   return (
     <section>
-      <FeatureBlock image={featured?.image_path}>
+      <FeatureBlock image={featured?.blog.image_path}>
         {featured ? (
           <div
             className={cn(
-              "bg-background/50 absolute overflow-hidden",
+              "bg-background/50 absolute overflow-hidden backdrop-blur-sm",
               "left-0 right-0 md:left-auto md:top-0 bottom-0 md:w-1/2"
             )}
           >
             <div className="flex flex-col gap-3 sm:gap-4 md:gap-8 max-w-(--breakpoint-sm) px-4 py-3 md:px-8 md:py-12 md:h-full">
               <h1 className="text-xl md:text-2xl font-semibold leading-none">
-                {featured.title.toUpperCase()}
+                {featured.blog.title.toUpperCase()}
               </h1>
 
               <div className="grow relative overflow-hidden">
                 <HtmlRenderer
-                  value={featured.content}
+                  value={featured.feature}
                   className="text-ellipsis line-clamp-1 md:line-clamp-12"
                 />
               </div>
@@ -57,10 +57,10 @@ export default async function Page({ searchParams }: Props) {
                   {new Intl.DateTimeFormat("en-PH", {
                     dateStyle: "medium",
                     timeStyle: "short",
-                  }).format(new Date(featured.created_at))}
+                  }).format(new Date(featured.blog.official_date))}
                 </h5>
 
-                <Link href={`/blog/${featured.id}`} passHref>
+                <Link href={`/blog/${featured.blog.id}`} passHref>
                   <Button size="fit" variant="transparent">
                     Read more
                     <ArrowRightIcon />

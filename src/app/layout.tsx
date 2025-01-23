@@ -70,7 +70,7 @@ export default async function RootLayout({ children }: Props) {
           </header>
 
           <main className="flex-1 flex flex-col">
-            <div className="relative flex-1 bg-background border-b">
+            <div className="relative flex-1 bg-background border-b flex flex-col">
               {children}
             </div>
 
