@@ -2,7 +2,6 @@ export const blogBucket = "blogs";
 export const machineIdCookieKey = "machineId";
 
 export const adminPagePreviewPaths = [
-  "/blog/admin.png",
   "/blog/blog-form.png",
   "/blog/admin-content.png",
   "/blog/content.png",
