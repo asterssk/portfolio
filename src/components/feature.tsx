@@ -24,7 +24,7 @@ export function FeatureBlock({ children, alt, image, className }: Props) {
           image ? "" : "dark:brightness-[0.15] dark:grayscale"
         )}
         priority
-        placeholder="blur"
+        placeholder="blur-sm"
         // tsk
         blurDataURL={image ?? "/placeholder.svg"}
         quality={80}

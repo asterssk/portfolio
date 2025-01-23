@@ -7,7 +7,7 @@ import { EditorMenu } from "./editor_menu";
 
 type Props = { value?: string; onChange: (value: string) => void };
 
-const className = `min-h-[20rem] cursor-text rounded-md border p-3 ring-offset-background focus-within:outline-none focus-within:ring-1 focus-within:ring-ring focus-within:ring-offset-0`;
+const className = `min-h-[20rem] cursor-text rounded-md border p-3 ring-offset-background focus-within:outline-hidden focus-within:ring-1 focus-within:ring-ring focus-within:ring-offset-0`;
 
 export function BlogContentEditor({ value, onChange }: Props) {
   const editor = useEditor({

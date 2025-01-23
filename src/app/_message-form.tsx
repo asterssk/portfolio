@@ -25,7 +25,7 @@ export function MessageForm({ mymsg }: Props) {
   return (
     <Form {...form}>
       <form
-        className="flex gap-4 mt-auto container px-6 py-8 max-w-screen-lg"
+        className="flex gap-4 mt-auto container px-6 py-8 max-w-(--breakpoint-lg)"
         onSubmit={form.handleSubmit(async (values) => {
           const error = await sendMessage(values.message);
           if (error) {

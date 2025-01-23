@@ -48,7 +48,7 @@ export default async function Page() {
 
   return (
     <section className="flex-1 flex flex-col">
-      <div className="container px-6 py-10 max-w-screen-lg space-y-20 flex-1">
+      <div className="container px-6 py-10 max-w-(--breakpoint-lg) space-y-20 flex-1">
         <div className="flex flex-col gap-9 justify-center max-w-xl mx-auto">
           <h1
             className="text-center font-extrabold"

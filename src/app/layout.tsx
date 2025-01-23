@@ -44,7 +44,7 @@ export default async function RootLayout({ children }: Props) {
           defaultTheme="light"
           disableTransitionOnChange
         >
-          {/* <header className="sticky top-0 backdrop-blur-sm bg-white/80 dark:bg-neutral-950/90 border-b z-10"> */}
+          {/* <header className="sticky top-0 backdrop-blur-xs bg-white/80 dark:bg-neutral-950/90 border-b z-10"> */}
           <header className="sticky top-0 bg-background border-b z-10">
             <nav className="flex justify-between items-center container gap-4 px-6 py-3">
               <Link href="/" className="flex items-center gap-2 md:gap-4">

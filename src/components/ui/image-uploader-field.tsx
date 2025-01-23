@@ -18,12 +18,12 @@ export function ImageUploaderField({ preview, onChange }: Props) {
   const fileRef = useRef<HTMLInputElement>(null);
 
   return (
-    <div className="aspect-video sm:aspect-[8/3] rounded-md overflow-clip relative border">
+    <div className="aspect-video sm:aspect-8/3 rounded-md overflow-clip relative border">
       {preview ? (
         <React.Fragment key="__image-selector">
           <Image src={preview} fill alt="preview" className="object-cover" />
 
-          <div className="transition-all inset-0 absolute flex items-center justify-center hover:backdrop-blur-sm bg-background/30 opacity-0 hover:opacity-100">
+          <div className="transition-all inset-0 absolute flex items-center justify-center hover:backdrop-blur-xs bg-background/30 opacity-0 hover:opacity-100">
             <Button
               type="button"
               className="rounded-full"

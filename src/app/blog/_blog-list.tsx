@@ -41,7 +41,7 @@ export async function BlogList({ filter }: Props) {
               fill
               alt="blog"
               className="object-cover"
-              placeholder="blur"
+              placeholder="blur-sm"
               // tsk
               blurDataURL={"/placeholder.svg"}
               quality={75}
